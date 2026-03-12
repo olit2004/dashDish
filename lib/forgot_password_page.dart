@@ -1,11 +1,9 @@
-import 'package:dashdish/forgot_password_page.dart';
-import 'package:dashdish/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dashdish/components/primary_button.dart';
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class ForgotPasswordPage extends StatelessWidget {
+  const ForgotPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +20,6 @@ class LoginPage extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 28),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 30),
 
@@ -32,22 +29,23 @@ class LoginPage extends StatelessWidget {
                   height: 70,
                 ),
 
-                const SizedBox(height: 25),
+                const SizedBox(height: 30),
 
                 /// Title
                 Text(
-                  "Welcome Back",
+                  "Forgot Password",
                   style: GoogleFonts.itim(
-                    fontSize: 40,
+                    fontSize: 38,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
 
-                const SizedBox(height: 8),
+                const SizedBox(height: 10),
 
+                /// Instruction
                 const Text(
-                  "Log in to continue ordering your favorite food",
+                  "Enter your email and we'll send you a link to reset your password.",
                   style: TextStyle(
                     color: Colors.white70,
                     fontSize: 16,
@@ -55,83 +53,44 @@ class LoginPage extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 50),
 
-                /// Email
+                /// Email Field
                 _customTextField(
                   hint: "Email",
                   icon: Icons.email_outlined,
                 ),
 
-                const SizedBox(height: 18),
+                const SizedBox(height: 30),
 
-                /// Password
-                _customTextField(
-                  hint: "Password",
-                  icon: Icons.lock_outline,
-                  isPassword: true,
-                ),
-
-                const SizedBox(height: 10),
-
-                /// Forgot password
-             
-
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ForgotPasswordPage(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    "Forgot password?",
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                ),
-              ),
-
-                const SizedBox(height: 10),
-
-                /// Primary action
+                /// Send reset link
                 PrimaryButton(
-                  text: "Log in",
+                  text: "Send Reset Link",
                   onPressed: () {},
                 ),
 
                 const Spacer(),
 
-                /// Sign up (secondary action)
+                /// Back to login
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Don’t have an account?",
+                      "Remember your password?",
                       style: TextStyle(color: Colors.white70),
                     ),
-
-
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignupPage(),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        "Log in",
+                        style: TextStyle(
+                          color: Color(0xFFEF6C00),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    );
-                  },
-                  child: const Text(
-                    "Sign up",
-                    style: TextStyle(
-                      color: Color(0xFFEF6C00),
-                      fontWeight: FontWeight.bold,
                     ),
-                  ),
-                ),
                   ],
                 ),
 
@@ -147,7 +106,6 @@ class LoginPage extends StatelessWidget {
   Widget _customTextField({
     required String hint,
     required IconData icon,
-    bool isPassword = false,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -155,7 +113,6 @@ class LoginPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
       ),
       child: TextField(
-        obscureText: isPassword,
         style: const TextStyle(color: Colors.white),
         decoration: InputDecoration(
           prefixIcon: Icon(icon, color: Colors.white70),

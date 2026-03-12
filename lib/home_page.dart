@@ -1,5 +1,6 @@
 import 'package:dashdish/components/primary_button.dart';
 import 'package:dashdish/login_page.dart';
+import 'package:dashdish/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -89,7 +90,12 @@ class _HomePageState extends State<HomePage> {
                           
                           PrimaryButton(
                             text: "Sign Up",
-                            onPressed: () {},
+                          onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const SignupPage()),
+                          );
+                        },
                           ),
                         ],
                       ),

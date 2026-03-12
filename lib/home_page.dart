@@ -1,4 +1,5 @@
 import 'package:dashdish/components/primary_button.dart';
+import 'package:dashdish/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -75,10 +76,16 @@ class _HomePageState extends State<HomePage> {
                       right: 20,
                       child: Column(
                         children: [
-                          PrimaryButton(
-                            text: "Login",
-                            onPressed: () {},
-                          ),
+                   
+                      PrimaryButton(
+                        text: "Login",
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const LoginPage()),
+                          );
+                        },
+                      ),
                           
                           PrimaryButton(
                             text: "Sign Up",

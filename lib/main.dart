@@ -1,20 +1,27 @@
-import 'package:flutter/material.dart'; // ui library tha t comes with flutter 
-import 'package:dashdish/home_page.dart';  // file in my /lib where i defined my home page what it ishould look like and how it shoudl cahnge based on the user interaction 
+import 'package:dashdish/login_page.dart';
+import 'package:dashdish/onboarding_page.dart';
+import 'package:dashdish/signup_page.dart';
+import 'package:flutter/material.dart'; 
+import 'package:dashdish/home_page.dart';  
  
 void main() {
-  runApp(const MyApp());
+  runApp(const DashDishApp());
 }
 
+class DashDishApp extends StatelessWidget {
+  const DashDishApp({super.key});
 
-
-
-class MyApp extends StatelessWidget {
-    const MyApp({super.key});
-    @override
-    Widget build(BuildContext context) {
-      return const  MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: HomePage(),
-      );
-    }
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'DashDish',
+      
+      home: const OnboardingPage(), 
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/signup': (context) => const SignupPage(), 
+      },
+    );
+  }
 }

@@ -1,73 +1,119 @@
+import 'package:dashdish/pages/food_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:dashdish/models/food_item.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
+final List<FoodItem> popularItems = const [
+  FoodItem(
+    title: "Margherita Pizza",
+    image: "https://images.unsplash.com/photo-1601924582975-7e5d0c0f3c5b",
+    price: 8.99,
+    description: "Classic pizza with tomato, mozzarella, and basil",
+  ),
+  FoodItem(
+    title: "Beef Burger",
+    image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
+    price: 6.50,
+    description: "Juicy beef patty with cheese and fresh veggies",
+  ),
+  FoodItem(
+    title: "Chicken Shawarma",
+    image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d",
+    price: 5.75,
+    description: "Spiced chicken wrapped with garlic sauce",
+  ),
+  FoodItem(
+    title: "Sushi Platter",
+    image: "https://images.unsplash.com/photo-1579888944880-d98341245702",
+    price: 12.00,
+    description: "Assorted fresh sushi selection",
+  ),
+  FoodItem(
+    title: "Pasta Alfredo",
+    image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5",
+    price: 9.25,
+    description: "Creamy alfredo pasta with parmesan",
+  ),
+];
+
+
+
+
+final List<FoodItem> menuItems = const [
+  FoodItem(
+    title: "Spicy Ramen",
+    image: "https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4",
+    price: 7.50,
+    description: "Hot ramen with rich broth and spices",
+  ),
+  FoodItem(
+    title: "Fried Chicken",
+    image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec",
+    price: 6.99,
+    description: "Crispy golden fried chicken",
+  ),
+  FoodItem(
+    title: "Grilled Steak",
+    image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
+    price: 14.99,
+    description: "Juicy grilled steak cooked to perfection",
+  ),
+  FoodItem(
+    title: "Caesar Salad",
+    image: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9",
+    price: 5.50,
+    description: "Fresh salad with Caesar dressing",
+  ),
+  FoodItem(
+    title: "Chocolate Cake",
+    image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+    price: 4.75,
+    description: "Rich chocolate layered cake",
+  ),
+];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF161719),
-      bottomNavigationBar: _buildBottomNav(),
+      bottomNavigationBar: _bottomNav(),
       body: SafeArea(
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-            // Header Section
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildTopBar(),
-                    const SizedBox(height: 30),
-                    Text(
-                      "Browse Restaurants",
-                      style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    _buildSearchBar(),
-                  ],
-                ),
-              ),
-            ),
+            _header(),
+            _sectionTitle("Popular near you"),
 
-            // Popular Near You Section
-            SliverToBoxAdapter(
-              child: _buildSectionTitle("Popular near you"),
-            ),
+            // HORIZONTAL LIST
             SliverToBoxAdapter(
               child: SizedBox(
                 height: 200,
-                child: ListView(
+                child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  children: const [
-                    _FoodCard(image: "assets/img/pasta.jpg", title: "Pasta Paradise"),
-                    _FoodCard(image: "assets/img/burger.jpg", title: "Cheese Burger"),
-                  ],
+                  itemCount: popularItems.length,
+                  itemBuilder: (context, index) {
+                    return FoodCard(item: popularItems[index]);
+                  },
                 ),
               ),
             ),
 
-            // Items Section
+            _sectionTitle("Items"),
+
+            // INDEPENDENT SCROLL SECTION
             SliverToBoxAdapter(
-              child: _buildSectionTitle("Items"),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              sliver: SliverList(
-                delegate: SliverChildListDelegate([
-                  _buildListItem("Fiery Chicken Ramen", "assets/img/ramen.jpg"),
-                  const SizedBox(height: 15),
-                  _buildListItem("Honey Garlic Fried Chicken", "assets/img/fried_chicken.jpg"),
-                  const SizedBox(height: 15),
-                ]),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.45,
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  itemCount: menuItems.length,
+                  itemBuilder: (context, index) {
+                    return FoodListItem(item: menuItems[index]);
+                  },
+                ),
               ),
             ),
           ],
@@ -76,22 +122,34 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // --- UI Helper Methods ---
-
-  Widget _buildTopBar() {
-    return Row(
-      children: [
-        Image.asset("assets/img/logo_small.png", height: 40), // Your delivery rider icon
-        const SizedBox(width: 10),
-        Text(
-          "DashDish",
-          style: GoogleFonts.cookie(fontSize: 28, color: Colors.white),
+  // HEADER
+  Widget _header() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset("assets/img/logo.png", height: 70),
+            const SizedBox(height: 20),
+            Text(
+              "Browse Restaurants",
+              style: GoogleFonts.poppins(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 20),
+            _searchBar(),
+          ],
         ),
-      ],
+      ),
     );
   }
 
-  Widget _buildSearchBar() {
+  // SEARCH
+  Widget _searchBar() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
@@ -101,56 +159,32 @@ class HomePage extends StatelessWidget {
       child: const TextField(
         decoration: InputDecoration(
           icon: Icon(Icons.search, color: Colors.black54),
-          hintText: "Search for Restaurants ...",
+          hintText: "Search...",
           border: InputBorder.none,
         ),
       ),
     );
   }
 
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 30, 20, 15),
-      child: Text(
-        title,
-        style: GoogleFonts.poppins(
-          fontSize: 18,
-          fontWeight: FontWeight.w500,
-          color: Colors.white,
+  // TITLE
+  Widget _sectionTitle(String title) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 30, 20, 10),
+        child: Text(
+          title,
+          style: GoogleFonts.poppins(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildListItem(String title, String imagePath) {
-    return Container(
-      height: 90,
-      decoration: BoxDecoration(
-        color: const Color(0xFF2C2F33),
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: Colors.white12),
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.horizontal(left: Radius.circular(15)),
-            child: Image.asset(imagePath, width: 110, height: 90, fit: BoxFit.cover),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Text(
-                title,
-                style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildBottomNav() {
+  // NAV
+  Widget _bottomNav() {
     return BottomNavigationBar(
       backgroundColor: const Color(0xFF1B1E23),
       selectedItemColor: Colors.white,
@@ -158,41 +192,123 @@ class HomePage extends StatelessWidget {
       showSelectedLabels: false,
       showUnselectedLabels: false,
       items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-        BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
-        BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu), label: "Menu"),
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
+        BottomNavigationBarItem(icon: Icon(Icons.search), label: ""),
+        BottomNavigationBarItem(icon: Icon(Icons.restaurant_menu), label: ""),
       ],
     );
   }
 }
 
-// Small Food Card Widget
-class _FoodCard extends StatelessWidget {
-  final String image;
-  final String title;
-  const _FoodCard({required this.image, required this.title});
+
+// HORIZONTAL CARD
+class FoodCard extends StatelessWidget {
+  final FoodItem item;
+
+  const FoodCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 160,
-      margin: const EdgeInsets.only(right: 15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
-      ),
+    return GestureDetector(
+      onTap: () => _openDetails(context),
       child: Container(
-        alignment: Alignment.bottomCenter,
-        padding: const EdgeInsets.all(10),
+        width: 160,
+        margin: const EdgeInsets.only(right: 15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+          image: DecorationImage(
+            image: NetworkImage(item.image),
+            fit: BoxFit.cover,
           ),
         ),
-        child: Text(title, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        child: _overlay(),
+      ),
+    );
+  }
+
+  Widget _overlay() {
+    return Container(
+      alignment: Alignment.bottomCenter,
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: LinearGradient(
+          colors: [Colors.transparent, Colors.black.withOpacity(0.8)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: Text(
+        item.title,
+        style: const TextStyle(color: Colors.white),
+      ),
+    );
+  }
+
+  void _openDetails(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => FoodDetailsPage(item: item),
+      ),
+    );
+  }
+}
+
+// VERTICAL LIST ITEM
+class FoodListItem extends StatelessWidget {
+  final FoodItem item;
+
+  const FoodListItem({super.key, required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _openDetails(context),
+      child: Container(
+        height: 90,
+        margin: const EdgeInsets.only(bottom: 15),
+        decoration: BoxDecoration(
+          color: const Color(0xFF2C2F33),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Colors.white12),
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius:
+                  const BorderRadius.horizontal(left: Radius.circular(15)),
+              child: Image.network(
+                item.image,
+                width: 110,
+                height: 90,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Text(
+                  item.title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _openDetails(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => FoodDetailsPage(item: item),
       ),
     );
   }

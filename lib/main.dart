@@ -21,6 +21,7 @@ class DashDishApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignupPage(), 
+        '/dashboard':(context)=> const HomePage()
       },
     );
   }

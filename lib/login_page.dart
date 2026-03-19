@@ -102,6 +102,7 @@ class LoginPage extends StatelessWidget {
                           PrimaryButton(
                             text: "Log in",
                             onPressed: () {
+                              Navigator.pushReplacementNamed(context, '/dashboard');
                               // Login Logic
                             },
                           ),

@@ -101,11 +101,13 @@ class ForgotPasswordPage extends StatelessWidget {
         ),
       ),
     );
-  }
+}
 
-  Widget _customTextField({
-    required String hint,
-    required IconData icon,
+
+
+Widget _customTextField({
+        required String hint,
+        required IconData icon,
   }) {
     return Container(
       decoration: BoxDecoration(

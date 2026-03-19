@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dashdish/models/food_item.dart';
-
-
-
+import 'checkout_page.dart'; // make sure to import your CheckoutPage
 
 class FoodDetailsPage extends StatefulWidget {
   final FoodItem item;
@@ -64,11 +62,11 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
               const SizedBox(height: 25),
 
               // PATTY SIZE
-              const Text("Patty size",
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
-
+              const Text(
+                "Patty size",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
               const SizedBox(height: 10),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(3, (index) {
@@ -91,11 +89,11 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
               const SizedBox(height: 25),
 
               // TOPPINGS
-              const Text("Extra topping",
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
-
+              const Text(
+                "Extra topping",
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
               const SizedBox(height: 10),
-
               Wrap(
                 spacing: 20,
                 runSpacing: 10,
@@ -109,8 +107,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                           setState(() => toppings[key] = val!);
                         },
                       ),
-                      Text(key,
-                          style: const TextStyle(color: Colors.white70)),
+                      Text(key, style: const TextStyle(color: Colors.white70)),
                     ],
                   );
                 }).toList(),
@@ -135,7 +132,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
 
               const SizedBox(height: 20),
 
-              // COMBO IMAGE (optional visual)
+              // COMBO IMAGE
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
@@ -145,7 +142,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
 
               const SizedBox(height: 30),
 
-              // BUTTON
+              // BUTTON NAVIGATE TO CHECKOUT
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -156,7 +153,14 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const CheckoutPage(),
+                      ),
+                    );
+                  },
                   child: const Text(
                     "View Receipt",
                     style: TextStyle(fontSize: 16, color: Colors.white),

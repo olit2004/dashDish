@@ -1,16 +1,58 @@
-import 'package:dashdish/forgot_password_page.dart';
-import 'package:dashdish/signup_page.dart'; 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:dashdish/components/primary_button.dart';
-import 'package:dashdish/components/custom_text_field.dart'; 
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
-class LoginPage extends StatelessWidget {
+import '../../../shared/components/primary_button.dart';
+import '../../../shared/components/custom_text_field.dart'; 
+import '../../../core/providers/auth_provider.dart';
+
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _handleLogin() async {
+    final authProvider = context.read<AuthProvider>();
+    await authProvider.login(
+      _emailController.text.trim(),
+      _passwordController.text.trim(),
+    );
+
+    if (mounted && authProvider.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(authProvider.error!), backgroundColor: Colors.red),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
+
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () => context.go('/'),
+        ),
+      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -65,31 +107,25 @@ class LoginPage extends StatelessWidget {
 
                           const SizedBox(height: 50),
 
-                          // Clean implementation with modular component
-                          const CustomTextField(
+                          CustomTextField(
                             hint: "Email",
                             icon: Icons.email_outlined,
+                            controller: _emailController,
                           ),
 
                           const SizedBox(height: 20),
 
-                          const CustomTextField(
+                          CustomTextField(
                             hint: "Password",
                             icon: Icons.lock_outline,
                             isPassword: true,
+                            controller: _passwordController,
                           ),
 
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const ForgotPasswordPage(),
-                                  ),
-                                );
-                              },
+                              onPressed: () => context.push('/forgot-password'),
                               child: const Text(
                                 "Forgot password?",
                                 style: TextStyle(color: Colors.white70),
@@ -99,13 +135,13 @@ class LoginPage extends StatelessWidget {
 
                           const SizedBox(height: 20),
 
-                          PrimaryButton(
-                            text: "Log in",
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(context, '/dashboard');
-                              // Login Logic
-                            },
-                          ),
+                          if (authProvider.isLoading)
+                            const CircularProgressIndicator(color: Color(0xFFEF6C00))
+                          else
+                            PrimaryButton(
+                              text: "Log in",
+                              onPressed: _handleLogin,
+                            ),
 
                           const Spacer(),
 
@@ -119,14 +155,7 @@ class LoginPage extends StatelessWidget {
                                 style: TextStyle(color: Colors.white70),
                               ),
                               TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => const SignupPage(),
-                                    ),
-                                  );
-                                },
+                                onPressed: () => context.push('/signup'),
                                 child: const Text(
                                   "Sign up",
                                   style: TextStyle(

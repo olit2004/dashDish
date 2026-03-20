@@ -1,8 +1,7 @@
-import 'package:dashdish/components/primary_button.dart';
-import 'package:dashdish/login_page.dart';
-import 'package:dashdish/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:go_router/go_router.dart';
+import '../../../shared/components/primary_button.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -30,7 +29,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
             children: [
               const SizedBox(height: 40),
 
-              // Logo
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -42,7 +40,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
               const SizedBox(height: 60),
 
-              // Title
               Text(
                 "Hungry?",
                 style: GoogleFonts.itim(
@@ -59,7 +56,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
               const Spacer(),
 
-              // Burger Image + Overlay Buttons
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -77,25 +73,14 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       right: 20,
                       child: Column(
                         children: [
-                   
-                      PrimaryButton(
-                        text: "Login",
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const LoginPage()),
-                          );
-                        },
-                      ),
-                          
+                          PrimaryButton(
+                            text: "Login",
+                            onPressed: () => context.push('/login'),
+                          ),
+                          const SizedBox(height: 10),
                           PrimaryButton(
                             text: "Sign Up",
-                          onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const SignupPage()),
-                          );
-                        },
+                            onPressed: () => context.push('/signup'),
                           ),
                         ],
                       ),
@@ -105,7 +90,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
               const Spacer(),
 
-              // Get Started Button
               if (!_showAuthButtons)
                 Padding(
                   padding: const EdgeInsets.symmetric(

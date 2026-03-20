@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class OrderSuccessPage extends StatelessWidget {
   const OrderSuccessPage({super.key});
@@ -45,9 +46,7 @@ class OrderSuccessPage extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () {
-            Navigator.popUntil(context, (route) => route.isFirst);
-          },
+          onTap: () => context.go('/dashboard'),
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: const BoxDecoration(

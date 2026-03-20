@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dashdish/models/food_item.dart';
-import 'checkout_page.dart'; // make sure to import your CheckoutPage
+import 'package:go_router/go_router.dart';
+import '../../../shared/models/food_item.dart';
 
 class FoodDetailsPage extends StatefulWidget {
   final FoodItem item;
@@ -28,6 +28,14 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF161719),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () => context.pop(),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
@@ -153,14 +161,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CheckoutPage(),
-                      ),
-                    );
-                  },
+                  onPressed: () => context.push('/checkout'),
                   child: const Text(
                     "View Receipt",
                     style: TextStyle(fontSize: 16, color: Colors.white),

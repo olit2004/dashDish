@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:dashdish/components/primary_button.dart';
+import 'package:go_router/go_router.dart';
+import '../../../shared/components/primary_button.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   const ForgotPasswordPage({super.key});
@@ -8,6 +9,15 @@ class ForgotPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () => context.pop(),
+        ),
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -23,7 +33,6 @@ class ForgotPasswordPage extends StatelessWidget {
               children: [
                 const SizedBox(height: 30),
 
-                /// Logo
                 Image.asset(
                   "assets/img/logo.png",
                   height: 70,
@@ -31,7 +40,6 @@ class ForgotPasswordPage extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                /// Title
                 Text(
                   "Forgot Password",
                   style: GoogleFonts.itim(
@@ -43,7 +51,6 @@ class ForgotPasswordPage extends StatelessWidget {
 
                 const SizedBox(height: 10),
 
-                /// Instruction
                 const Text(
                   "Enter your email and we'll send you a link to reset your password.",
                   style: TextStyle(
@@ -55,7 +62,6 @@ class ForgotPasswordPage extends StatelessWidget {
 
                 const SizedBox(height: 50),
 
-                /// Email Field
                 _customTextField(
                   hint: "Email",
                   icon: Icons.email_outlined,
@@ -63,7 +69,6 @@ class ForgotPasswordPage extends StatelessWidget {
 
                 const SizedBox(height: 30),
 
-                /// Send reset link
                 PrimaryButton(
                   text: "Send Reset Link",
                   onPressed: () {},
@@ -71,7 +76,6 @@ class ForgotPasswordPage extends StatelessWidget {
 
                 const Spacer(),
 
-                /// Back to login
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -80,9 +84,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       style: TextStyle(color: Colors.white70),
                     ),
                     TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+                      onPressed: () => context.pop(),
                       child: const Text(
                         "Log in",
                         style: TextStyle(
@@ -101,13 +103,11 @@ class ForgotPasswordPage extends StatelessWidget {
         ),
       ),
     );
-}
+  }
 
-
-
-Widget _customTextField({
-        required String hint,
-        required IconData icon,
+  Widget _customTextField({
+    required String hint,
+    required IconData icon,
   }) {
     return Container(
       decoration: BoxDecoration(

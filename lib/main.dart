@@ -1,28 +1,41 @@
-import 'package:dashdish/login_page.dart';
-import 'package:dashdish/onboarding_page.dart';
-import 'package:dashdish/signup_page.dart';
-import 'package:flutter/material.dart'; 
-import 'package:dashdish/home_page.dart';  
- 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'core/providers/auth_provider.dart';
+import 'core/routing/app_router.dart';
+
 void main() {
-  runApp(const DashDishApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+      ],
+      child: const DashDishApp(),
+    ),
+  );
 }
 
-class DashDishApp extends StatelessWidget {
+class DashDishApp extends StatefulWidget {
   const DashDishApp({super.key});
 
   @override
+  State<DashDishApp> createState() => _DashDishAppState();
+}
+
+class _DashDishAppState extends State<DashDishApp> {
+  late AppRouter _appRouter;
+
+  @override
+  void initState() {
+    super.initState();
+    _appRouter = AppRouter(context.read<AuthProvider>());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'DashDish',
-      
-      home: const OnboardingPage(), 
-      routes: {
-        '/login': (context) => const LoginPage(),
-        '/signup': (context) => const SignupPage(), 
-        '/dashboard':(context)=> const HomePage()
-      },
+      routerConfig: _appRouter.router,
     );
   }
 }

@@ -1,15 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:dashdish/components/primary_button.dart';
-import 'package:dashdish/components/custom_text_field.dart'; // Import your new widget
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
-class SignupPage extends StatelessWidget {
+import '../../../shared/components/primary_button.dart';
+import '../../../shared/components/custom_text_field.dart'; 
+import '../../../core/providers/auth_provider.dart';
+
+class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
   @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _addressController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void _handleSignup() async {
+    final authProvider = context.read<AuthProvider>();
+    await authProvider.signup(
+      _emailController.text.trim(),
+      _passwordController.text.trim(),
+    );
+
+    if (mounted && authProvider.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(authProvider.error!), backgroundColor: Colors.red),
+      );
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
+
     return Scaffold(
-      // Keep background outside SafeArea to color the status bar area too
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () => context.pop(),
+        ),
+      ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -53,37 +100,43 @@ class SignupPage extends StatelessWidget {
                           
                           const SizedBox(height: 40),
 
-                          /// Using the modularized components
-                          const CustomTextField(
+                          CustomTextField(
                             hint: "Full Name",
                             icon: Icons.person_outline,
+                            controller: _nameController,
                           ),
                           const SizedBox(height: 18),
                           
-                          const CustomTextField(
+                          CustomTextField(
                             hint: "Email",
                             icon: Icons.email_outlined,
+                            controller: _emailController,
                           ),
                           const SizedBox(height: 18),
                           
-                          const CustomTextField(
+                          CustomTextField(
                             hint: "Address",
                             icon: Icons.location_on_outlined,
+                            controller: _addressController,
                           ),
                           const SizedBox(height: 18),
                           
-                          const CustomTextField(
+                          CustomTextField(
                             hint: "Password",
                             icon: Icons.lock_outline,
                             isPassword: true,
+                            controller: _passwordController,
                           ),
 
                           const SizedBox(height: 30),
                           
-                          PrimaryButton(
-                            text: "Create Account",
-                            onPressed: () {},
-                          ),
+                          if (authProvider.isLoading)
+                            const CircularProgressIndicator(color: Color(0xFFEF6C00))
+                          else
+                            PrimaryButton(
+                              text: "Create Account",
+                              onPressed: _handleSignup,
+                            ),
 
                           // Pushes the login link to the bottom
                           const Spacer(),
@@ -96,7 +149,7 @@ class SignupPage extends StatelessWidget {
                                 style: TextStyle(color: Colors.white70),
                               ),
                               TextButton(
-                                onPressed: () => Navigator.pop(context),
+                                onPressed: () => context.pop(),
                                 child: const Text(
                                   "Log in",
                                   style: TextStyle(

@@ -144,7 +144,7 @@ class _FoodDetailsPageState extends State<FoodDetailsPage> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
-                  "https://images.unsplash.com/photo-1550547660-d9450f859349",
+                  "https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=400&auto=format",
                 ),
               ),
 

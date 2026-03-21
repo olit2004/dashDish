@@ -12,31 +12,31 @@ class HomePage extends StatelessWidget {
   final List<FoodItem> popularItems = const [
     FoodItem(
       title: "Margherita Pizza",
-      image: "https://images.unsplash.com/photo-1601924582975-7e5d0c0f3c5b",
+      image: "https://images.unsplash.com/photo-1601924582975-7e5d0c0f3c5b?q=80&w=400&auto=format",
       price: 8.99,
       description: "Classic pizza with tomato, mozzarella, and basil",
     ),
     FoodItem(
       title: "Beef Burger",
-      image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
+      image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=400&auto=format",
       price: 6.50,
       description: "Juicy beef patty with cheese and fresh veggies",
     ),
     FoodItem(
       title: "Chicken Shawarma",
-      image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d",
+      image: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?q=80&w=400&auto=format",
       price: 5.75,
       description: "Spiced chicken wrapped with garlic sauce",
     ),
     FoodItem(
       title: "Sushi Platter",
-      image: "https://images.unsplash.com/photo-1579888944880-d98341245702",
+      image: "https://images.unsplash.com/photo-1579888944880-d98341245702?q=80&w=400&auto=format",
       price: 12.00,
       description: "Assorted fresh sushi selection",
     ),
     FoodItem(
       title: "Pasta Alfredo",
-      image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5",
+      image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?q=80&w=400&auto=format",
       price: 9.25,
       description: "Creamy alfredo pasta with parmesan",
     ),
@@ -45,31 +45,31 @@ class HomePage extends StatelessWidget {
   final List<FoodItem> menuItems = const [
     FoodItem(
       title: "Spicy Ramen",
-      image: "https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4",
+      image: "https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4?q=80&w=400&auto=format",
       price: 7.50,
       description: "Hot ramen with rich broth and spices",
     ),
     FoodItem(
       title: "Fried Chicken",
-      image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec",
+      image: "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=400&auto=format",
       price: 6.99,
       description: "Crispy golden fried chicken",
     ),
     FoodItem(
       title: "Grilled Steak",
-      image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
+      image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?q=80&w=400&auto=format",
       price: 14.99,
       description: "Juicy grilled steak cooked to perfection",
     ),
     FoodItem(
       title: "Caesar Salad",
-      image: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9",
+      image: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?q=80&w=400&auto=format",
       price: 5.50,
       description: "Fresh salad with Caesar dressing",
     ),
     FoodItem(
       title: "Chocolate Cake",
-      image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+      image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=400&auto=format",
       price: 4.75,
       description: "Rich chocolate layered cake",
     ),
